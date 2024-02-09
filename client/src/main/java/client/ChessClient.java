@@ -19,6 +19,8 @@ import model.Game;
 import webSocketMessages.userCommands.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 
 import static ui.EscapeSequences.*;
 
@@ -171,6 +173,36 @@ public class ChessClient {
         drawer.draw();
     }
 
+    public void highlightMoves() {
+        ChessPosition startPosition;
+        try {
+            startPosition = ui.promptChessPosition("Enter the position of a chess piece: ");
+        } catch (InvalidUserInputException e) {
+            ui.println(String.format("Unrecognized value '%s'. Cancelling", e.getInvalidInputString()));
+            return;
+        } catch (CommandCancelException e) {
+            return;
+        }
+
+        Collection<ChessMove> validMoves = game.chessGame().validMoves(startPosition);
+
+        if (validMoves == null) {
+            ui.println("That isn't a piece you can move.");
+            return;
+        }
+
+        Collection<ChessPosition> highlightedPositions = new HashSet<>();
+        for (ChessMove move : validMoves) {
+            highlightedPositions.add(move.getEndPosition());
+        }
+
+        BoardDrawer drawer = new BoardDrawer(ui, game.chessGame().getBoard(), sessionData.getPlayerColor());
+        drawer.drawWithHighlightedPositions(highlightedPositions);
+        if (highlightedPositions.isEmpty()) {
+            ui.println("That piece has no valid moves.");
+        }
+    }
+
     public void leaveGame() throws FailedConnectionException {
         ws.send(new LeaveGameCommand(sessionData.getAuthTokenString(), sessionData.getGameID()));
         // TODO Race condition?
@@ -202,7 +234,4 @@ public class ChessClient {
         }
     }
 
-    public void highlightMoves() {
-        // TODO
-    }
 }
