@@ -1,5 +1,11 @@
 package ui;
 
+import chess.ChessMove;
+import chess.ChessPiece;
+import chess.ChessPosition;
+import client.ChessInputParser;
+import client.CommandCancelException;
+
 import java.io.PrintStream;
 import java.util.Scanner;
 
@@ -45,6 +51,28 @@ public class ConsoleUI {
         } else {
             return Integer.parseInt(raw);
         }
+    }
+
+    public ChessPosition promptChessPosition(String prompt) throws InvalidUserInputException, CommandCancelException {
+        String startString = promptInput(prompt);
+        return ChessInputParser.parseToPosition(startString);
+    }
+
+    public ChessMove promptChessMove() throws InvalidUserInputException, CommandCancelException {
+        return promptChessMove("");
+    }
+
+    public ChessMove promptChessMove(String prompt) throws InvalidUserInputException, CommandCancelException {
+        if (!"".equals(prompt)) {
+            println(prompt);
+        }
+        ChessPosition startPosition = promptChessPosition("Enter the starting position: ");
+        ChessPosition endPosition = promptChessPosition("Enter the ending position: ");
+
+        String promotionString = promptInput("(Optional) Enter the promotion piece [Q|R|B|N]: ");
+        ChessPiece.PieceType promotionPiece = ChessInputParser.parseToPromotionPiece(promotionString);
+
+        return new ChessMove(startPosition, endPosition, promotionPiece);
     }
 
     public void reprintPrompt() {

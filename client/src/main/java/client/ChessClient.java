@@ -1,10 +1,13 @@
 package client;
 
+import chess.ChessMove;
+import chess.ChessPosition;
 import httpConnection.ChessServerFacade;
 import httpConnection.FailedConnectionException;
 import httpConnection.FailedResponseException;
 import ui.BoardDrawer;
 import ui.ConsoleUI;
+import ui.InvalidUserInputException;
 import ui.command.Command;
 import ui.command.Commands;
 import ui.command.UICommand;
@@ -178,12 +181,16 @@ public class ChessClient {
     }
 
     public void makeMove() throws FailedConnectionException {
+        ChessMove move;
         try {
-            MoveMaker moveMaker = new MoveMaker(ui, ws, sessionData, game);
-            moveMaker.makeMove();
-        } catch (CommandCancelException ignored) {
+            move = ui.promptChessMove();
+        } catch (InvalidUserInputException e) {
+            ui.println(String.format("Unrecognized value '%s'. Cancelling", e.getInvalidInputString()));
+            return;
+        } catch (CommandCancelException e) {
             return;
         }
+        ws.send(new MakeMoveGameCommand(sessionData.getAuthTokenString(), sessionData.getGameID(), move));
     }
 
     public void resign() throws FailedConnectionException {
