@@ -167,8 +167,7 @@ public class ChessClient {
     }
 
     public void drawBoard() {
-        BoardDrawer drawer = new BoardDrawer(ui, game.chessGame().getBoard());
-        drawer.setViewerTeamColor(sessionData.getPlayerColor());
+        BoardDrawer drawer = new BoardDrawer(ui, game.chessGame().getBoard(), sessionData.getPlayerColor());
         drawer.draw();
     }
 

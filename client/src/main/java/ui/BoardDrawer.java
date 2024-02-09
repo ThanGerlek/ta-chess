@@ -4,33 +4,26 @@ import chess.ChessBoard;
 import chess.ChessGame;
 import ui.BoardUIElement.BoardToUIElementParser;
 import ui.BoardUIElement.BoardUIElementReader;
-import ui.BoardUIElement.BoardUIElementRotator;
+import ui.BoardUIElement.BoardUIElementTransformer;
 
 public class BoardDrawer {
     private final ConsoleUI ui;
-    private final BoardToUIElementParser parser;
-    private BoardUIElementReader reader;
+    private final BoardUIElementReader reader;
+    private final BoardUIElementTransformer transformer;
 
-    public BoardDrawer(ConsoleUI ui, ChessBoard board) {
+    public BoardDrawer(ConsoleUI ui, ChessBoard board, ChessGame.TeamColor color) {
         this.ui = ui;
-        this.parser = new BoardToUIElementParser(board);
-        this.reader = parser;
-        setViewerTeamColor(ChessGame.TeamColor.WHITE);
+        this.reader = new BoardToUIElementParser(board);
+        this.transformer = new BoardUIElementTransformer(color);
     }
 
-    public void setViewerTeamColor(ChessGame.TeamColor color) {
-        if (color == null) {
-            color = ChessGame.TeamColor.WHITE;
-        }
-        this.reader = new BoardUIElementRotator(parser, color);
-    }
 
     public void draw() {
         StringBuilder builder = new StringBuilder();
         appendNewLine(builder);
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
-                reader.get(row, col).appendTo(builder);
+                transformer.getFrom(reader, 9 - row, col).appendTo(builder);
             }
             appendNewLine(builder);
         }
