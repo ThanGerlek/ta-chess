@@ -3,9 +3,6 @@ package server.services;
 import chess.ChessGame;
 import chess.ChessPiece;
 import chess.ChessPosition;
-import chess.ChessPositionImpl;
-import chess.pieces.King;
-import chess.pieces.Queen;
 import dataAccess.DataAccessException;
 import dataAccess.UnauthorizedAccessException;
 import http.GameListItem;
@@ -17,7 +14,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.desktop.QuitEvent;
 import java.util.ArrayList;
 
 class ListGamesServiceTest extends ServiceTest {
