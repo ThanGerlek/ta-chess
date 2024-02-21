@@ -56,7 +56,7 @@ class ListGamesServiceTest extends ServiceTest {
 
     // Negative test
     @Test
-    void list_Games_with_invalid_token_returns_forbidden() throws DataAccessException {
+    void list_Games_with_invalid_token_returns_forbidden() {
         Assertions.assertThrows(UnauthorizedAccessException.class, () -> service.listGames("iDoNotExist"));
     }
 

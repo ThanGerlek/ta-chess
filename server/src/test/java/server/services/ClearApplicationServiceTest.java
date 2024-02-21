@@ -2,7 +2,6 @@ package server.services;
 
 import dataAccess.DataAccessException;
 import dataAccess.NoSuchItemException;
-import http.MessageResponse;
 import model.AuthToken;
 import model.Game;
 import model.User;
@@ -34,9 +33,9 @@ class ClearApplicationServiceTest extends ServiceTest {
     }
 
     @Test
-    void clearing_does_not_throw() throws DataAccessException {
+    void clearing_does_not_throw() {
         Assertions.assertDoesNotThrow(() -> {
-            MessageResponse response = service.clearApplication();
+            service.clearApplication();
         });
     }
 

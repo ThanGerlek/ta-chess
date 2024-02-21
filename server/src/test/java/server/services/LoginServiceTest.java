@@ -30,7 +30,7 @@ class LoginServiceTest extends ServiceTest {
 
     // Negative test
     @Test
-    void login_incorrect_password_returns_forbidden() throws DataAccessException {
+    void login_incorrect_password_returns_forbidden() {
         Assertions.assertThrows(UnauthorizedAccessException.class,
                 () -> service.login(new LoginRequest("user1", "iAmIncorrect")));
     }
@@ -48,7 +48,7 @@ class LoginServiceTest extends ServiceTest {
     }
 
     @Test
-    void login_incorrect_username_returns_forbidden() throws DataAccessException {
+    void login_incorrect_username_returns_forbidden() {
         Assertions.assertThrows(UnauthorizedAccessException.class,
                 () -> service.login(new LoginRequest("iAmIncorrect", "pass1")));
     }

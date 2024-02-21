@@ -25,13 +25,13 @@ class RegisterServiceTest extends ServiceTest {
     // Positive test
     @Test
     void get_registered_user_returns_user() throws DataAccessException {
-        AuthResponse response = service.register(new RegisterRequest("user1", "pass1", "mail1"));
+        service.register(new RegisterRequest("user1", "pass1", "mail1"));
         Assertions.assertEquals(userDAO.getUser("user1"), new User("user1", "pass1", "mail1"));
     }
 
     // Negative test
     @Test
-    void register_existing_user_throws_already_taken() throws DataAccessException {
+    void register_existing_user_throws_already_taken() {
         Assertions.assertThrows(ValueAlreadyTakenException.class,
                 () -> service.register(new RegisterRequest("existingUser", "pass1", "mail1")));
     }
@@ -43,13 +43,13 @@ class RegisterServiceTest extends ServiceTest {
     }
 
     @Test
-    void register_with_null_username_throws_bad_request_error() throws DataAccessException {
+    void register_with_null_username_throws_bad_request_error() {
         Assertions.assertThrows(BadRequestException.class,
                 () -> service.register(new RegisterRequest(null, "pass1", "mail1")));
     }
 
     @Test
-    void register_with_null_password_throws_bad_request_error() throws DataAccessException {
+    void register_with_null_password_throws_bad_request_error() {
         Assertions.assertThrows(BadRequestException.class,
                 () -> service.register(new RegisterRequest("user1", null, "mail1")));
     }

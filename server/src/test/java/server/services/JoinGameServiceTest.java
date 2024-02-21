@@ -36,23 +36,24 @@ class JoinGameServiceTest extends ServiceTest {
     // Positive test
     @Test
     void join_Game_as_white_adds_user_as_white() throws DataAccessException {
-        MessageResponse response = service.joinGame(requestW, token1.authToken());
+        service.joinGame(requestW, token1.authToken());
         Assertions.assertEquals("user1", gameDAO.findGame(1).whiteUsername());
     }
 
     @Test
     void join_Game_as_black_adds_user_as_black() throws DataAccessException {
-        MessageResponse response = service.joinGame(requestB, token1.authToken());
+        service.joinGame(requestB, token1.authToken());
         Assertions.assertEquals("user1", gameDAO.findGame(1).blackUsername());
     }
 
     // Negative test
     @Test
-    void join_nonexistent_Game_returns_bad_request_error() throws DataAccessException {
+    void join_nonexistent_Game_returns_bad_request_error() {
         Assertions.assertThrows(NoSuchItemException.class,
                 () -> service.joinGame(
                         new JoinGameRequest(PlayerRole.roleToString(PlayerRole.WHITE_PLAYER), INVALID_GAME_ID),
-                        token1.authToken()));
+                        token1.authToken())
+        );
     }
 
     @Test
@@ -83,7 +84,7 @@ class JoinGameServiceTest extends ServiceTest {
     }
 
     @Test
-    void join_Game_with_invalid_token_errors() throws DataAccessException {
+    void join_Game_with_invalid_token_errors() {
         Assertions.assertThrows(UnauthorizedAccessException.class, () -> service.joinGame(requestW, "iAmIncorrect"));
     }
 
