@@ -1,4 +1,4 @@
-package server.services;
+package serviceTests;
 
 import dataAccess.BadRequestException;
 import dataAccess.DataAccessException;
@@ -9,6 +9,7 @@ import model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.services.RegisterService;
 
 class RegisterServiceTest extends ServiceTest {
     private RegisterService service;

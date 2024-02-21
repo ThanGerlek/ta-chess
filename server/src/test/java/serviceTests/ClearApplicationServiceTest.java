@@ -1,4 +1,4 @@
-package server.services;
+package serviceTests;
 
 import dataAccess.DataAccessException;
 import dataAccess.NoSuchItemException;
@@ -8,6 +8,7 @@ import model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.services.ClearApplicationService;
 
 class ClearApplicationServiceTest extends ServiceTest {
     private ClearApplicationService service;

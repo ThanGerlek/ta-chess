@@ -1,4 +1,4 @@
-package server.services;
+package serviceTests;
 
 import dataAccess.DataAccessException;
 import dataAccess.UnauthorizedAccessException;
@@ -8,6 +8,7 @@ import model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.services.LogoutService;
 
 class LogoutServiceTest extends ServiceTest {
     private final User user = new User("user1", "pass1", "mail1");

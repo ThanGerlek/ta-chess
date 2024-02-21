@@ -1,4 +1,4 @@
-package server.services;
+package serviceTests;
 
 import chess.ChessGame;
 import chess.ChessPiece;
@@ -13,6 +13,7 @@ import model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.services.ListGamesService;
 
 import java.util.ArrayList;
 
