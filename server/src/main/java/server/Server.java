@@ -65,6 +65,7 @@ public class Server {
             setupDataAccess();
         } catch (DataAccessException e) {
             System.out.println("Failed to setup data access!");
+            e.printStackTrace();
             Spark.stop();
             System.exit(1);
         }

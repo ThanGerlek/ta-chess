@@ -43,21 +43,11 @@ public class DatabaseManager {
             try (var preparedStatement = conn.prepareStatement(statement)) {
                 preparedStatement.executeUpdate();
             }
-            test();
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());
         }
     }
 
-
-    static private void test() throws SQLException {
-        String statement = "INSERT INTO rubric_config (phase, type, category, criteria, points) VALUES ('myPhase', 'myType', 'myCat', 'myCriteria', 9000)";
-        Connection conn = DriverManager.getConnection(connectionUrl, user, password);
-        conn.setCatalog("autograder");
-        try (var preparedStatement = conn.prepareStatement(statement)) {
-            preparedStatement.executeUpdate();
-        }
-    }
 
     /**
      * Create a connection to the database and sets the catalog based upon the properties specified in db.properties.

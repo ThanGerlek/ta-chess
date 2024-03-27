@@ -1,6 +1,7 @@
 package dataAccess;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -47,10 +48,32 @@ public class ChessDatabaseManager extends DatabaseManager {
                     preparedStatement.executeUpdate();
                 }
             }
+            test();
         } catch (SQLException e) {
             throw new DataAccessException("Failed to configure database: " + e.getMessage());
         }
+
     }
+
+
+    static private void test() throws SQLException {
+        String connectionUrl = "jdbc:mysql://LAPTOP-ISF44972.local:3308";
+        String user = "wsl-student";
+        String password = "Urq.y4yTfu3EnHw2";
+
+        System.out.println("RUNNING TEST...");
+        String statement = "SELECT * FROM rubric_config";
+        Connection conn = DriverManager.getConnection(connectionUrl, user, password);
+        conn.setCatalog("autograder");
+        try (var preparedStatement = conn.prepareStatement(statement)) {
+            preparedStatement.executeQuery();
+        System.out.println("IT SELECTED! OH NO!");
+        } catch (Exception e) {
+            System.out.println("IT DID NOT SELECT! HOORAY!");
+            throw e;
+        }
+    }
+
 
     static void update(String sqlString) throws DataAccessException {
         update(sqlString, sp -> {
