@@ -1,6 +1,8 @@
 package dataAccess;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class DatabaseManager {
@@ -41,21 +43,28 @@ public class DatabaseManager {
             try (var preparedStatement = conn.prepareStatement(statement)) {
                 preparedStatement.executeUpdate();
             }
+            test();
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());
         }
     }
 
+
+    static private void test() throws SQLException {
+        String statement = "INSERT INTO rubric_config (phase, type, category, criteria, points) VALUES ('myPhase', 'myType', 'myCat', 'myCriteria', 9000)";
+        Connection conn = DriverManager.getConnection(connectionUrl, user, password);
+        conn.setCatalog("autograder");
+        try (var preparedStatement = conn.prepareStatement(statement)) {
+            preparedStatement.executeUpdate();
+        }
+    }
+
     /**
-     * Create a connection to the database and sets the catalog based upon the
-     * properties specified in db.properties. Connections to the database should
-     * be short-lived, and you must close the connection when you are done with it.
-     * The easiest way to do that is with a try-with-resource block.
-     * <br/>
+     * Create a connection to the database and sets the catalog based upon the properties specified in db.properties.
+     * Connections to the database should be short-lived, and you must close the connection when you are done with it.
+     * The easiest way to do that is with a try-with-resource block. <br/>
      * <code>
-     * try (var conn = DbInfo.getConnection(databaseName)) {
-     * // execute SQL statements.
-     * }
+     * try (var conn = DbInfo.getConnection(databaseName)) { // execute SQL statements. }
      * </code>
      */
     static Connection getConnection() throws DataAccessException {
