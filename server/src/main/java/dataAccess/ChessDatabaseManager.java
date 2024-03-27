@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
 
 public class ChessDatabaseManager extends DatabaseManager {
@@ -62,14 +63,22 @@ public class ChessDatabaseManager extends DatabaseManager {
         String password = "Urq.y4yTfu3EnHw2";
 
         System.out.println("RUNNING TEST...");
-        String statement = "SELECT * FROM rubric_config";
+
+        String statement = """
+                        INSERT INTO queue (net_id, phase, time_added)
+                        VALUES ('mallory', 'phase -1', ?)
+                        """;
+
         Connection conn = DriverManager.getConnection(connectionUrl, user, password);
         conn.setCatalog("autograder");
+
+
         try (var preparedStatement = conn.prepareStatement(statement)) {
+            preparedStatement.setObject(1, Instant.now());
             preparedStatement.executeQuery();
-        System.out.println("IT SELECTED! OH NO!");
+        System.out.println("IT INSERTED! OH NO!");
         } catch (Exception e) {
-            System.out.println("IT DID NOT SELECT! HOORAY!");
+            System.out.println("IT DID NOT INSERT! HOORAY!");
             throw e;
         }
     }
