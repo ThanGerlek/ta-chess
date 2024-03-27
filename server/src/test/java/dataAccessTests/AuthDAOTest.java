@@ -53,13 +53,13 @@ class AuthDAOTest {
     @Test
     void addAuthToken_with_incorrect_username_throws() {
         AuthToken invalidToken = new AuthToken(validToken.authToken(), "invalidUsername");
-        assertThrows(NoSuchItemException.class, () -> authDAO.addAuthToken(invalidToken));
+        assertThrows(UnauthorizedAccessException.class, () -> authDAO.addAuthToken(invalidToken));
     }
 
     @Test
-    void nonexistent_token_is_invalid() {
+    void nonexistent_token_is_invalid() throws DataAccessException {
         AuthToken invalidToken = new AuthToken("invalidTokenString", validUser.username());
-        assertThrows(DataAccessException.class, () -> authDAO.addAuthToken(invalidToken));
+        assertFalse(authDAO.isValidAuthToken(invalidToken.authToken()));
     }
 
     @Test
@@ -92,11 +92,12 @@ class AuthDAOTest {
 
     @Test
     void getUsername_returns_correct_username() throws DataAccessException {
+        authDAO.addAuthToken(validToken);
         assertEquals(validUser.username(), authDAO.getUsername(validToken.authToken()));
     }
 
     @Test
     void getUsername_of_nonexistent_token_throws() {
-        assertThrows(NoSuchItemException.class, () -> authDAO.getUsername("invalidTokenString"));
+        assertThrows(UnauthorizedAccessException.class, () -> authDAO.getUsername("invalidTokenString"));
     }
 }
