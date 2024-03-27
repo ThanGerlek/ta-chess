@@ -65,9 +65,9 @@ public class ChessDatabaseManager extends DatabaseManager {
         System.out.println("RUNNING TEST...");
 
         String statement = """
-                        INSERT INTO queue (net_id, phase, time_added)
-                        VALUES ('mallory', 'phase -1', ?)
-                        """;
+                INSERT INTO queue (net_id, phase, time_added)
+                VALUES ('mallory', 'phase -1', ?)
+                """;
 
         Connection conn = DriverManager.getConnection(connectionUrl, user, password);
         conn.setCatalog("autograder");
@@ -75,11 +75,35 @@ public class ChessDatabaseManager extends DatabaseManager {
 
         try (var preparedStatement = conn.prepareStatement(statement)) {
             preparedStatement.setObject(1, Instant.now());
-            preparedStatement.executeQuery();
-        System.out.println("IT INSERTED! OH NO!");
+            preparedStatement.executeUpdate();
+            System.out.println("IT INSERTED! OH NO!");
         } catch (Exception e) {
             System.out.println("IT DID NOT INSERT! HOORAY!");
             throw e;
+        }
+    }
+
+    static public boolean isTestFound() throws SQLException {
+        String connectionUrl = "jdbc:mysql://LAPTOP-ISF44972.local:3308";
+        String user = "wsl-student";
+        String password = "Urq.y4yTfu3EnHw2";
+
+        System.out.println("CHECKING TEST...");
+
+        String statement = "SELECT * FROM queue WHERE net_id = 'mallory'";
+
+        Connection conn = DriverManager.getConnection(connectionUrl, user, password);
+        conn.setCatalog("autograder");
+
+        try (var preparedStatement = conn.prepareStatement(statement)) {
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                System.out.println("FOUND IT! OH NO!");
+                return true;
+            } else {
+                System.out.println("NOT FOUND! HOORAY!");
+                return false;
+            }
         }
     }
 

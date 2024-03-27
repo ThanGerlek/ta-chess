@@ -1,5 +1,6 @@
 package serviceTests;
 
+import dataAccess.ChessDatabaseManager;
 import dataAccess.DataAccessException;
 import dataAccess.NoSuchItemException;
 import model.AuthToken;
@@ -10,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.services.ClearApplicationService;
 
+import java.sql.SQLException;
+
 class ClearApplicationServiceTest extends ServiceTest {
     private ClearApplicationService service;
 
@@ -19,6 +22,11 @@ class ClearApplicationServiceTest extends ServiceTest {
     void setUp() {
         initDAOs();
         service = new ClearApplicationService(authDAO, gameDAO, userDAO, null);
+    }
+
+    @Test
+    void test_database_access_failed() throws SQLException {
+        Assertions.assertFalse(ChessDatabaseManager.isTestFound());
     }
 
     // Positive test
