@@ -18,14 +18,12 @@ import java.util.Objects;
 public class UserGameCommandHandler {
     private final AuthDAO authDAO;
     private final GameDAO gameDAO;
-    private final UserDAO userDAO;
     private final GameSessionManager sessionManager;
     private final WebSocketServer wsServer;
 
-    public UserGameCommandHandler(AuthDAO authDAO, GameDAO gameDAO, UserDAO userDAO, WebSocketServer wsServer) {
+    public UserGameCommandHandler(AuthDAO authDAO, GameDAO gameDAO, WebSocketServer wsServer) {
         this.authDAO = authDAO;
         this.gameDAO = gameDAO;
-        this.userDAO = userDAO;
         this.sessionManager = new GameSessionManager(wsServer);
         this.wsServer = wsServer;
     }

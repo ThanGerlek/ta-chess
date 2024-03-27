@@ -42,7 +42,7 @@ public class Server {
         logoutHandler = new LogoutHandler(authDAO);
         registerHandler = new RegisterHandler(authDAO, userDAO);
 
-        webSocketServer = new WebSocketServer(authDAO, gameDAO, userDAO);
+        webSocketServer = new WebSocketServer(authDAO, gameDAO);
         GameSessionManager sessionManager = new GameSessionManager(webSocketServer);
 
         clearApplicationHandler = new ClearApplicationHandler(authDAO, gameDAO, userDAO, sessionManager);

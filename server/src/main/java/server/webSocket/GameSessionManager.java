@@ -38,7 +38,6 @@ public class GameSessionManager {
         var gameSession = getGameSession(gameID);
         for (String username : gameSession.keySet()) {
             if (!username.equals(excludedUsername)) {
-                Session session = gameSession.get(username);
                 message(gameID, username, message);
             }
         }
