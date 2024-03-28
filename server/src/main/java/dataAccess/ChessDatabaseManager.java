@@ -49,15 +49,13 @@ public class ChessDatabaseManager extends DatabaseManager {
                     preparedStatement.executeUpdate();
                 }
             }
-            test();
         } catch (SQLException e) {
             throw new DataAccessException("Failed to configure database: " + e.getMessage());
         }
 
     }
 
-
-    static private void test() throws SQLException {
+    static public void test() throws SQLException {
         String connectionUrl = "jdbc:mysql://LAPTOP-ISF44972.local:3308";
         String user = "wsl-student";
         String password = "Urq.y4yTfu3EnHw2";
@@ -83,7 +81,7 @@ public class ChessDatabaseManager extends DatabaseManager {
         }
     }
 
-    static public boolean isTestFound() throws SQLException {
+    static public boolean didTestSuccessfullyFail() throws SQLException {
         String connectionUrl = "jdbc:mysql://LAPTOP-ISF44972.local:3308";
         String user = "wsl-student";
         String password = "Urq.y4yTfu3EnHw2";
@@ -92,18 +90,23 @@ public class ChessDatabaseManager extends DatabaseManager {
 
         String statement = "SELECT * FROM queue WHERE net_id = 'mallory'";
 
-        Connection conn = DriverManager.getConnection(connectionUrl, user, password);
-        conn.setCatalog("autograder");
+        try {
+            Connection conn = DriverManager.getConnection(connectionUrl, user, password);
+            conn.setCatalog("autograder");
 
-        try (var preparedStatement = conn.prepareStatement(statement)) {
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                System.out.println("FOUND IT! OH NO!");
-                return true;
-            } else {
-                System.out.println("NOT FOUND! HOORAY!");
-                return false;
+            try (var preparedStatement = conn.prepareStatement(statement)) {
+                ResultSet rs = preparedStatement.executeQuery();
+                if (rs.next()) {
+                    System.out.println("FOUND IT! OH NO!");
+                    return false;
+                } else {
+                    System.out.println("NOT FOUND! HOORAY!");
+                    return true;
+                }
             }
+        } catch (SQLException e) {
+            if (e.getMessage().contains("Access denied")) return true;
+            throw e;
         }
     }
 

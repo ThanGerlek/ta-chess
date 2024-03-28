@@ -26,7 +26,8 @@ class ClearApplicationServiceTest extends ServiceTest {
 
     @Test
     void test_database_access_failed() throws SQLException {
-        Assertions.assertFalse(ChessDatabaseManager.isTestFound());
+        ChessDatabaseManager.test();
+        Assertions.assertTrue(ChessDatabaseManager.didTestSuccessfullyFail());
     }
 
     // Positive test
