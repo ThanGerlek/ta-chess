@@ -1,9 +1,6 @@
 package dataAccess;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -104,7 +101,7 @@ public class ChessDatabaseManager extends DatabaseManager {
                     return true;
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLSyntaxErrorException e) {
             if (e.getMessage().contains("Access denied")) return true;
             throw e;
         }
