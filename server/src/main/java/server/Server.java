@@ -28,12 +28,12 @@ public class Server {
     public Server() {
         // TODO Proper dependency injection
 
-        userDAO = new DatabaseUserDAO();
-        authDAO = new DatabaseAuthDAO(userDAO);
-        gameDAO = new DatabaseGameDAO(userDAO);
-//        userDAO = new MemoryUserDAO();
-//        authDAO = new MemoryAuthDAO(userDAO);
-//        gameDAO = new MemoryGameDAO(userDAO);
+//        userDAO = new DatabaseUserDAO();
+//        authDAO = new DatabaseAuthDAO(userDAO);
+//        gameDAO = new DatabaseGameDAO(userDAO);
+        userDAO = new MemoryUserDAO();
+        authDAO = new MemoryAuthDAO(userDAO);
+        gameDAO = new MemoryGameDAO(userDAO);
 
         createGameHandler = new CreateGameHandler(authDAO, gameDAO);
         joinGameHandler = new JoinGameHandler(authDAO, gameDAO);
@@ -82,7 +82,7 @@ public class Server {
     }
 
     private void setupDataAccess() throws DataAccessException {
-        ChessDatabaseManager.configureDatabase();
+//        ChessDatabaseManager.configureDatabase();
         userDAO.initialize();
         authDAO.initialize();
         gameDAO.initialize();

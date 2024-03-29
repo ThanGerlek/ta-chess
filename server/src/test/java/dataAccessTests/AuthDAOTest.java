@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AuthDAOTest {
-    private static final boolean IS_SQL_DAO = true;
+    private static final boolean IS_SQL_DAO = false;
 
     private static UserDAO userDAO;
     private static AuthDAO authDAO;
